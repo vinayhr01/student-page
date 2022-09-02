@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+	<br/>
+	<h2>You Searched For: <em>{{ searched }}</em></h2>
+	
+	<br/>
+
+	{% if posts %}
+    <div class="card-deck">
+        <div class="row">
+	{% for post in posts %}
+    <div class="col-lg-3 mb-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <!--Movie overview-->
+                <p class="card-text">{{ post.content|safe }}</p>
+                <!--Movie genres-->
+                <p class="card-text">Topic: <b>{{ post.slug }}</b></p>
+                <!--Movie vote average-->
+                <p class="card-text"><small class="text-muted">By: {{ post.poster.name }}</p>
+                <!--Movie language and release date-->
+                <p class="card-text">Posted: {{ post.date_posted.strftime('%d %b %Y') }}</small></p>
+                <a href="{{url_for('view_replies',id=post.id)}}" class="btn btn-outline-danger btn-sm" >View Replies</a>
+            </div>
+        </div>
+    </div>
+	{% endfor %}
+    </div>
+    </div>
+
+	{% else %}
+	Sorry, your search term: <strong>{{ searched }}</strong> was not found...
+	{% endif %}
+    
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{% if trigs %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">id</th>
+            <th scope="col">User</th>
+            <th scope="col">Action</th>
+            <th scope="col">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trig in trigs %}
+                <tr>
+                <th scope="row">{{trig.id}}</th>
+                <td>{{trig.username}}</td>
+                <td>{{trig.action }}</td>
+                <td>{{trig.time_stamp.strftime('%H:%M:%S %d %b %Y')}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>      
+    </table>
+{% endif %}
+{% endblock %}

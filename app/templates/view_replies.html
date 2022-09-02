@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <h2>{{ post.title }}</h2>
+    <small>By: {{ post.poster.name }}<br/>
+    {{ post.date_posted.strftime('%d %b %Y') }}</small> <br/><br/>
+    {{ post.content|safe }}
+{% if current_user.is_authenticated %}
+<button class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample" >Reply</button>
+<div class="collapse" id="collapseExample">
+    <div class="card-header">
+        Reply
+    </div>
+    <div class="card card-body">
+        <form action="{{ url_for('view_replies', id=post.id) }}" method="POST"class="shadow p-3 mb-5 bg-body rounded" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows="2") }}
+        </br>
+            {{ form.submit(class="btn btn-secondary") }}
+        </form>
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='content') }}
+    </div>
+</div>
+</br>
+{% else %}
+<a href="{{ url_for('login')}}" class="btn btn-primary btn-sm">Login To Reply</a>
+</br>
+{% endif %}
+</br>
+{% if replies %}
+    {% for reply in replies %}
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <small>By: {{ reply.ureplies.name }}<br/>
+        {{ reply.date_replied.strftime('%d %b %Y') }}</small> <br/><br/>
+        {{ reply.content|safe }}
+        <br/><br/>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <h3>No replies yet</h3>
+    </div>
+{% endif %}
+</div>
+{% endblock %}

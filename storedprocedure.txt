@@ -1,0 +1,23 @@
+CREATE PROCEDURE create_notification(
+    for_post INT,
+    runame INT
+)
+BEGIN
+    DECLARE uid INT;
+    DECLARE uname VARCHAR(20);
+
+    SELECT poster_id
+    INTO uid
+    FROM posts
+    WHERE id=for_post;
+	 
+    SELECT username
+    INTO uname
+    FROM users
+    WHERE id=runame;
+
+    INSERT INTO notification VALUES(NULL,uid , uname,NOW(), for_post);
+
+END$$
+
+DELIMITER ;

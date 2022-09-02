@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+{% for field, errors in form.errors.items() %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+    {{ errors[0] }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+<form method="POST" class="shadow p-3 mb-5 bg-body rounded" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.author.label() }}
+    <div class="w-50 p-3" >
+    {{ form.author(class="form-control",value="ananyomous")}}
+    </div>
+    {{ form.subject.label() }}
+    <div class="w-50 p-3" >
+    {{ form.subject(class="form-control") }}
+    </div>
+    {{ form.modules.label() }}
+    <div class="w-50 p-3" >
+    {{ form.modules(class="form-control form-select") }}
+    </div>
+    {{ form.branch.label() }}
+    <div class="w-50 p-3" >
+    {{ form.branch(class="form-control") }}
+    </div>
+    {{ form.sem.label() }}
+    <div class="w-50 p-3" >
+    {{ form.sem(class="form-control") }}
+    </div>
+    {{ form.college.label() }}
+    <div class="w-50 p-3" >
+    {{ form.college(class="form-control form-select") }}
+    </div>
+    {{ form.content.label() }}
+    <div class="w-50 p-3" >
+    {{ form.content(class="form-control")}}
+    </div>
+    {{ form.file.label() }}
+    <div class="w-50 p-3" >
+    {{ form.file(class="form-control") }}
+    </div>
+    <br/>
+    {{ form.submit(class="btn btn-secondary") }}
+    </form> 
+    </div>
+{% endblock %}

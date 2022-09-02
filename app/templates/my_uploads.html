@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+{% if books %}
+<div class="card-columns">
+    <div class="row">
+    {% for book in books %}
+    <div class="col-lg-3 mb-4">
+        <div class="card" style="width: 18rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-book card-img" viewBox="0 0 16 16">
+                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+            </svg>
+            <div class="card-body">
+                <h5 class="card-title">{{ book.subject }}</h5>
+                <p class="card-text">{{ book.content|safe }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Sem: {{ book.sem }}  Branch : {{ book.branch }}</li>
+                <li class="list-group-item"><cite>~ {{ book.author }}</cite></li>
+                <li class="list-group-item"><small>Posted: {{ (date-book.date_uploaded.date()).days }} days ago.</small></li>
+                <li class="list-group-item"><small>By: {{ book.uploader.name }}</small></li>
+            </ul>
+            <div class="card-body">
+                <a href="{{ url_for('static', filename='files/') + book.file}}" class="btn btn-outline-danger btn-sm" target="blank" >Download</a>
+                <a href="{{ url_for('delete_file', id=book.id) }}" class="btn btn-outline-danger btn-sm"  >Delete</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %} 
+    </div>
+</div>
+{% else %} 
+    <h3>No uploads yet</h3>
+    <h4>Click here to upload</h4>
+    <a href="{{ url_for('upload_file') }}" class="btn btn-outline-danger btn-sm">Upload</a>
+{% endif %}
+{% endblock %}

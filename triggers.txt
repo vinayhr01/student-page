@@ -1,0 +1,12 @@
+Create Trigger on_update AFTER UPDATE ON USERS FOR EACH ROW INSERT INTO trig VALUES(NULL,'User Updated', NEW.username ,NOW())
+
+Create Trigger on_insert AFTER INSERT ON USERS FOR EACH ROW INSERT INTO trig VALUES(NULL,'User Inserted', NEW.username ,NOW())
+
+Create Trigger on_delete BEFORE DELETE ON USERS FOR EACH ROW INSERT INTO trig VALUES(NULL,'User Deleted', OLD.username ,NOW())
+
+Create Trigger on_reply AFTER INSERT ON REPLIES FOR EACH ROW 
+
+BEGIN
+	CALL create_notification( NEW.post_for_id, NEW.reply_id);
+END$$
+	
